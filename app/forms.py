@@ -5,7 +5,6 @@ from app import messages, db
 from app.models import User
 import sqlalchemy as sa
 
-
 class LoginForm(FlaskForm):
     username = StringField(
         'Username',

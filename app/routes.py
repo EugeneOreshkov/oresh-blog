@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, flash, url_for, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from urllib.parse import urlsplit
@@ -10,7 +10,7 @@ from app.models import User, Post
 @app.route('/index')
 @login_required
 def index():
-    stmt = sa.select(Post).order_by(Post.date_posted.desc())
+    stmt = sa.select(Post).order_by(Post.timestamp.desc())
     posts = db.session.scalars(stmt).all()
     return render_template('index.html', title = 'Oreshkov', posts=posts, current_route=request.endpoint)
 @app.route('/register', methods=['GET', 'POST'])
@@ -18,12 +18,17 @@ def register():
     form = RegistrationForm()
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    form = RegistrationForm()
+    if request.method == "POST" and not form.validate():
+        current_app.logger.warning('Registration form failed to validate: %r', form.errors)
     if form.validate_on_submit():
         user = User(
             username = form.username.data,
             email = form.email.data,
             phone = form.phone.data,
+        )
+        current_app.logger.info(
+            "Registering new user: username=%s, email=%s, phone=%s",
+            user.username, user.email, user.phone
         )
         user.set_password(form.password.data)
         db.session.add(user)
@@ -31,8 +36,6 @@ def register():
         flash('Thank you for registering. You can now log in.')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, current_route=request.endpoint)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -40,7 +43,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         stmt = sa.select(User).where(User.username == form.username.data)
-        user = db.session.scalars(stmt).one()
+        user = db.session.scalars(stmt).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password.')
             return redirect(url_for('login'))

@@ -8,14 +8,19 @@
         {% endif %}
     </head>
     <body>
-        <nav> Blog:
-            <ul>
-               <li <a href="{{ url_for('index') }}">Home</a> |
-            <a href="{{ url_for('about') }}">About</a> |
-            <a href="{{ url_for('register') }}">Register</a> /
-            <a href="{{ url_for('login') }}">Login</a> /
-            <a href="{{ url_for('logout') }}">Logout</a>
-            </ul>
+        <nav>
+            {% if current_user.is_authenticated %}
+                Blog:
+                <a href="{{ url_for('index') }}">Home</a> »
+                <a href="{{ url_for('about') }}">About</a> »
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% elif request.endpoint == 'register' %}
+                Have you been here before? »
+                <a href="{{ url_for('login') }}">Login</a>
+            {% elif request.endpoint == 'login' %}
+                For the first time here? »
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
         </nav>
         <hr>
         {% with messages = get_flashed_messages() %}
