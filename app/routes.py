@@ -1,9 +1,10 @@
+from urllib.parse import urlsplit
+
+import sqlalchemy as sa
 from flask import render_template, redirect, flash, url_for, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
-import sqlalchemy as sa
-from urllib.parse import urlsplit
-from app import app
-from app import db
+
+from app import app, db
 from app.forms import LoginForm, RegistrationForm
 from app.models import User, Post
 @app.route('/')
@@ -12,7 +13,8 @@ from app.models import User, Post
 def index():
     stmt = sa.select(Post).order_by(Post.timestamp.desc())
     posts = db.session.scalars(stmt).all()
-    return render_template('index.html', title = 'Oreshkov', posts=posts, current_route=request.endpoint)
+    return render_template('portal/index.html', title = 'Oreshkov', posts=posts, current_route=request.endpoint)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -35,7 +37,8 @@ def register():
         db.session.commit()
         flash('Thank you for registering. You can now log in.')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form, current_route=request.endpoint)
+    return render_template('auth/register.html', title='Register', form=form, current_route=request.endpoint)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -53,14 +56,27 @@ def login():
             next_page = url_for('index')
         flash("Login requested successfully.")
         return redirect(next_page)
-    return render_template('login.html', title = 'Sign in', form=form, current_route=request.endpoint)
+    return render_template('auth/login.html', title = 'Sign in', form=form, current_route=request.endpoint)
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('index'))
+
 @app.route('/about')
 @login_required
 def about():
     return render_template('about.html', title='About')
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    stmt = sa.select(User).where(User.username == username)
+    user = db.first_or_404(stmt)
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user/profile.html', title='User', user=user, posts=posts)

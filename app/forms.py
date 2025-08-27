@@ -1,9 +1,17 @@
+import sqlalchemy as sa
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, Regexp, EqualTo, Length
-from app import messages, db
+from wtforms.validators import (
+    ValidationError,
+    DataRequired,
+    Email,
+    Regexp,
+    EqualTo,
+    Length,
+)
+
+from app import db, messages
 from app.models import User
-import sqlalchemy as sa
 
 class LoginForm(FlaskForm):
     username = StringField(
@@ -14,6 +22,7 @@ class LoginForm(FlaskForm):
             Regexp(r'^[A-Za-z0-9_]+$', message=messages.USERNAME_CHAR_ERROR)
         ]
     )
+
     password = PasswordField(
         'Password',
         validators=[
@@ -21,6 +30,7 @@ class LoginForm(FlaskForm):
             Length(min=8, max=24, message=messages.PASSWORD_FIELD_ERROR)
         ]
     )
+
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
@@ -33,6 +43,7 @@ class RegistrationForm(FlaskForm):
             Regexp(r'^[A-Za-z0-9_]+$', message=messages.USERNAME_CHAR_ERROR)
         ]
     )
+
     email = StringField(
         'Email',
         validators=[
@@ -41,6 +52,7 @@ class RegistrationForm(FlaskForm):
         Length(max=64, message=messages.EMAIL_MAX_LENGTH_ERROR)
         ]
     )
+
     phone = StringField(
         'Phone',
         validators=[
@@ -48,12 +60,14 @@ class RegistrationForm(FlaskForm):
         Regexp(r'^\+?[0-9]{10,15}$', message=messages.PHONE_REGEX_ERROR)
         ]
     )
+
     password = PasswordField(
         'Password',
         validators=[DataRequired(),
         Length(min=8, max=24, message=messages.PASSWORD_FIELD_ERROR)
         ]
     )
+
     password2 = PasswordField(
         'Repeat your password',
         validators=[DataRequired(),
@@ -61,6 +75,7 @@ class RegistrationForm(FlaskForm):
         EqualTo('password', message=messages.PASSWORD_MATCH_ERROR)
         ]
     )
+
     submit = SubmitField('Register')
 
     def validate_username(self, username):
