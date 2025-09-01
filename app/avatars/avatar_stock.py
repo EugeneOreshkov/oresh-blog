@@ -1,10 +1,10 @@
 import hashlib
 from flask import Blueprint, Response, request
 import pydenticon
-bp = Blueprint("avatar_bp", __name__)
+bp = Blueprint("avatar_stock", __name__)
 
 FOREGROUND = [
-    "rgb(57,255,20)", # Neon Green
+    "rgb(57,255,20)", # Neon Greenm
     "rgb(0,255,255)", # Neon Cyan / Aqua
     "rgb(255,20,147)", # Deep Pink
     "rgb(255,255,0)", # Acid Yellow
