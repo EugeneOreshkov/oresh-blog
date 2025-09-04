@@ -13,14 +13,14 @@
                 😁
                 <a href="{{ url_for('index') }}">Home</a> »
                 <a href="{{ url_for('about') }}">About</a> »
-                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a> »
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% elif request.endpoint == 'register' %}
+                <a href="{{ url_for('profile.user', username=current_user.username) }}">Profile</a> »
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% elif request.endpoint == 'auth.register' %}
                 Have you been here before? »
-                <a href="{{ url_for('login') }}">Login</a>
-            {% elif request.endpoint == 'login' %}
+                <a href="{{ url_for('auth.login') }}">Login</a>
+            {% elif request.endpoint == 'auth.login' %}
                 For the first time here? »
-                <a href="{{ url_for('register') }}">Register</a>
+                <a href="{{ url_for('auth.register') }}">Register</a>
             {% endif %}
         </nav>
         <hr>

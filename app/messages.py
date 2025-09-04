@@ -10,3 +10,5 @@ PHONE_TAKEN_ERROR = "This phone number is already registered."
 
 PASSWORD_FIELD_ERROR = "Password must be between 8 and 24 characters."
 PASSWORD_MATCH_ERROR = "Passwords must match."
+
+GENERAL_LENGTH_ERROR = "This field is too long."

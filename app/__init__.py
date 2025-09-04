@@ -15,9 +15,16 @@ app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 login = LoginManager(app)
-login.login_view = "login"
+login.login_view = "auth.login"
 migrate = Migrate(app, db)
 
-from app import routes, models  # noqa: E402
-from app.avatar import bp as avatar_blueprint  # noqa: E402
-app.register_blueprint(avatar_blueprint)
+from app import routes, models # noqa: F401
+
+from app.avatars import bp as avatars_bp
+app.register_blueprint(avatars_bp, url_prefix="/avatars")
+
+from app.profile import bp as profile_bp
+app.register_blueprint(profile_bp)
+
+from app.auth import bp as auth_bp
+app.register_blueprint(auth_bp)

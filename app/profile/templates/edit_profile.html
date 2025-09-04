@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {% include "_load_avatar.html" %}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+                <span style = "color : red">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.about.label }}<br>
+            {{ form.about(rows=10, cols=80) }}
+            {% for error in form.about.errors %}
+                <span style = "color : red">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+      </form>
+{% endblock %}

@@ -1,14 +1,7 @@
-import sqlalchemy as sa
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import (
-    ValidationError,
-    DataRequired,
-    Email,
-    Regexp,
-    EqualTo,
-    Length,
-)
+from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp, ValidationError
+import sqlalchemy as sa
 
 from app import db, messages
 from app.models import User

@@ -40,7 +40,7 @@ class User(UserMixin, db.Model):
 
     created_at: so.Mapped[datetime] = so.mapped_column(
         sa.DateTime(timezone=True),
-        server_default=func.now(),
+        server_default=func.now(datetime.utcnow()),
         nullable=False,
     )
 
@@ -59,7 +59,7 @@ class User(UserMixin, db.Model):
         """Return the avatar URL (for use in <img src=...>)"""
         import hashlib
         seed = hashlib.md5(self.email.strip().lower().encode("utf-8")).hexdigest()
-        return url_for("avatar_bp.avatar", seed=seed, size=size)
+        return url_for("avatars.avatar", seed=seed, size=size)
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"

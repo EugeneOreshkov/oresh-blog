@@ -1,10 +1,10 @@
 import hashlib
-from flask import Blueprint, Response, request
+from flask import Response, request
 import pydenticon
-bp = Blueprint("avatar_stock", __name__)
+from . import bp
 
 FOREGROUND = [
-    "rgb(57,255,20)", # Neon Greenm
+    "rgb(57,255,20)", # Neon Green
     "rgb(0,255,255)", # Neon Cyan / Aqua
     "rgb(255,20,147)", # Deep Pink
     "rgb(255,255,0)", # Acid Yellow
@@ -25,7 +25,7 @@ generator = pydenticon.Generator(
 
 @bp.get("/avatar")
 def avatar():
-    seed = request.args.get("seed")
+    seed = request.args.get("seed") or 'anon'
     size = max(24, min(int(request.args.get("size")), 512))
     image = generator.generate(seed, size, size, output_format="png")
     return Response(image, mimetype="image/png")
