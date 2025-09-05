@@ -1,0 +1,56 @@
+   1 import logging
+   2 from logging.handlers import SMTPHandler
+   3 from pathlib import Path
+   4 
+   5 from dotenv import load_dotenv
+   6 from flask import Flask
+   7 from flask_sqlalchemy import SQLAlchemy
+   8 from flask_login import LoginManager
+   9 from flask_migrate import Migrate
+  10 
+  11 from config import Config
+  12 
+  13 dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+  14 load_dotenv(dotenv_path=dotenv_path)
+  15 app = Flask(__name__)
+  16 
+  17 app.config.from_object(Config)
+  18 
+  19 if not app.debug:
+  20     if app.config['MAIL_SERVER']:
+  21         auth = None
+  22         if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
+  23             auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+  24         secure = None
+  25         if app.config['MAIL_USE_TLS']:
+  26             secure = ()
+  27         mail_handler = SMTPHandler(
+  28             mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']), 
+  29             fromaddr=app.config['MAIL_USERNAME'],
+  30             toaddrs=app.config['ADMINS'], 
+  31             subject='ERROR: Blog Failure',
+  32             credentials=auth,            
+  33             secure=secure
+  34         )
+  35         mail_handler.setLevel(logging.ERROR)
+  36         app.logger.addHandler(mail_handler) 
+  37 
+  38 db = SQLAlchemy(app)
+  39 login = LoginManager(app)
+  40 login.login_view = "auth.login"
+  41 migrate = Migrate(app, db)
+  42 
+  43 from app import routes, models # noqa: F401
+  44 
+  45 from app.avatars import bp as avatars_bp
+  46 app.register_blueprint(avatars_bp, url_prefix="/avatars")
+  47 
+  48 from app.profile import bp as profile_bp
+  49 app.register_blueprint(profile_bp)
+  50 
+  51 from app.auth import bp as auth_bp
+  52 app.register_blueprint(auth_bp)
+  53 
+  54 from app.errors import bp as errors_bp
+  55 app.register_blueprint(errors_bp)
+  56 

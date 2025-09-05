@@ -1,0 +1,30 @@
+   1 import os
+   2 class Config:
+   3     SECRET_KEY = os.environ.get('SECRET_KEY')
+   4     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+   5     TEMPLATES_AUTO_RELOAD = True
+   6 
+   7     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+   8     # Allowed file extensions for uploads (only images)
+   9     ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp']
+  10     UPLOAD_FOLDER = 'app/static/customs_avatars'
+  11 
+  12     # SMTP server address (depends on provider, e.g. smtp.gmail.com, smtp.yandex.ru)
+  13     MAIL_SERVER = os.environ.get('MAIL_SERVER') 
+  14     # Port for SMTP: 587 with TLS (recommended) or 465 with SSL
+  15     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+  16     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') == 'True'    
+  17 
+  18     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+  19     ADMINS = os.environ.get('ADMINS')
+  20 
+  21     '''
+  22     MAIL_PASSWORD: use an application-specific password,
+  23     not your main email password.
+  24 
+  25     - For Gmail: Google Account → Security → App passwords
+  26     - For Yandex: Yandex ID → Security → App passwords
+  27     '''
+  28     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+  29 
+  30 
