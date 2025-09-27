@@ -1,0 +1,23 @@
+/* style.css */
+
+html {
+    font-size: 16px; /* Base size */
+}
+
+body {
+    padding-top: 60px;
+    font-family: "Bounded-Variable", sans-serif;
+    font-weight: 250;    
+    font-size: 1rem;
+}
+
+nav {
+    background: var(--nav-gradient);
+    font-weight: 450;
+    font-size: 2rem;
+}
+
+h1 {
+    font-weight: 350;
+    font-size: 1.5rem;
+}

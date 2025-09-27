@@ -26,11 +26,9 @@ def user(username):
 @login_required
 def edit_profile():
     form = EditProfileForm()
-    if form.validate_on_submit():
-
+    if form.validate_on_submit():        
         changed_avatar = False
-        changed_profile = False
-
+        changed_profile = False              
         # --- Avatar ---
         file= form.avatar.data               
         if file:    
@@ -43,7 +41,6 @@ def edit_profile():
             changed_avatar = True
         
         # --- Text fields ---
-
         if (form.username.data != current_user.username) or (form.about.data != current_user.about):
             current_user.username = form.username.data
             current_user.about = form.about.data
@@ -52,7 +49,6 @@ def edit_profile():
         if changed_profile: db.session.commit()
         
         # --- Flash messages ---
-
         if changed_avatar and changed_profile: flash('Your avatar and profile changes have been saved.')
         elif changed_avatar: flash('Your avatar changes have been saved.')
         elif  changed_profile: flash('Your profile changes have been saved.')

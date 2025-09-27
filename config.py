@@ -1,11 +1,4 @@
-import os
-
-
-def _as_bool(value: str, default: bool = False) -> bool:
-    if value is None:
-        return default
-    return str(value).strip().lower() in {"1", "true", "on", "yes"}
-
+import os, json
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -20,13 +13,12 @@ class Config:
     # SMTP server address (depends on provider, e.g. smtp.gmail.com, smtp.yandex.ru)
     MAIL_SERVER = os.environ.get('MAIL_SERVER') 
     # Port for SMTP: 587 with TLS (recommended) or 465 with SSL
-    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 587)
-    MAIL_USE_TLS = _as_bool(os.environ.get('MAIL_USE_TLS'), True)
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') == 'True'    
 
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    # Comma-separated list: "admin1@example.com, admin2@example.com"
-    ADMINS = [e.strip() for e in os.environ.get('ADMINS', '').split(',') if e.strip()]
-
+    ADMIN = json.loads(os.environ.get('ADMIN', "[]")
+) 
     '''
     MAIL_PASSWORD: use an application-specific password,
     not your main email password.
@@ -35,5 +27,3 @@ class Config:
     - For Yandex: Yandex ID → Security → App passwords
     '''
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-
-

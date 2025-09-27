@@ -7,13 +7,14 @@ from wtforms.validators import DataRequired, Length, Regexp
 from app import messages
 
 class EditProfileForm(FlaskForm):
-
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         allowed = current_app.config.get('ALLOWED_EXTENSIONS', [])
         self.avatar.validators = [
             FileAllowed(allowed, message="Only images (png, jpg, jpeg, webp)!")
-        ]    
+        ]      
+    avatar = FileField()    
     username = StringField(
         "Username:",
         validators=[
