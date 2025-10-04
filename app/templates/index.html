@@ -6,7 +6,7 @@
         <h1>Hello *NAME*!</h1>
     {% endif %}
     {% for post in posts%}
-        <div><p><strong>{{post.author.username}}</strong> wrote a new post: <b>{{post.title}}</b></p>
-             <p>{{post.body}}</p></div>
+        <div><p><strong>{{ post.author.username }}</strong> wrote a new post: <b>{{ post.title }}</b></p>
+             <p>{{ post.body }}</p></div>
     {% endfor %}
 {% endblock %}

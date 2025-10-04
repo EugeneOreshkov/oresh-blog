@@ -1,23 +1,51 @@
 /* style.css */
 
+:root {
+  --navbar-height: 64px;
+}
+
 html {
-    font-size: 16px; /* Base size */
+  font-size: 16px; /* Base size */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {   
+  font-weight: 400;
+  font-size: 1.2rem;
 }
 
 body {
-    padding-top: 60px;
-    font-family: "Bounded-Variable", sans-serif;
-    font-weight: 250;    
-    font-size: 1rem;
+  margin: 0;
+  padding-top: var(--navbar-height);
+  font-family: "Bounded-Variable", sans-serif;
+  font-weight: 300;    
+  font-size: 1rem;
 }
 
-nav {
-    background: var(--nav-gradient);
-    font-weight: 450;
-    font-size: 2rem;
+nav.navbar {
+  height: var(--navbar-height);   
+  background: var(--nav-gradient);  
+  font-weight: 500;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;  
 }
 
-h1 {
-    font-weight: 350;
-    font-size: 1.5rem;
+.navbar a {
+  color: #e9ecef;
+  text-decoration: none;  
+}
+
+.navbar a:hover {
+  color: #adb5bd;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand img {
+  height: calc(var(--navbar-height) - 16px);  
+  flex-shrink: 0;   
 }
