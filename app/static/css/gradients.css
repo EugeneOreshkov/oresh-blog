@@ -1,9 +1,0 @@
-/* gradients.css */
-
-:root {
-    --nav-gradient: linear-gradient(
-    180deg,
-    rgba(38, 38, 38, 1) 0%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(38, 38, 38, 1) 100%);
-}

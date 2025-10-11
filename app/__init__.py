@@ -28,6 +28,7 @@ logger.propagate = False
 formatter = logging.Formatter(
 "%(asctime)s - %(levelname)s - %(message)s [in %(pathname)s : %(lineno)d]"    
 )
+
 # Console logs 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.DEBUG if app.debug else logging.INFO)

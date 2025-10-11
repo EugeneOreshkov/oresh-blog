@@ -1,11 +1,8 @@
-html, body, .navbar {
+@use "variables" as v;
+
+html {
   font-size: 16px; /* Base size */
-  font-family: "Manrope-Variable", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-  margin: 0;
-  padding-top: 32px;  
-  font-size: 1rem;
+  font-family: "Bounded-Variable", sans-serif;
 }
 
 * {
@@ -17,9 +14,16 @@ h1 {
   font-size: 1.2rem;
 }
 
+body {
+  margin: 0;
+  padding-top: 64px;  
+  font-weight: 400;
+  font-size: 1rem;
+}
+
 nav.navbar {
   height: 64px;
-  background: linear-gradient(180deg, rgb(38, 38, 38) 0%, rgb(0, 0, 0) 50%, rgb(38, 38, 38) 100%);
+  background: v.$navbar-gradient;
   font-weight: 200;
   font-size: 1.125rem;
   display: flex;
@@ -27,22 +31,22 @@ nav.navbar {
 }
 
 .navbar .navbar-text {
-  color: #E0E0E0;
+  color: v.$color-text_primary;  
   font-weight: 200;
-  display: flex;
+  display: flex;  
 }
 
 .navbar a {
-  color: #E0E0E0;
+  color: v.$color-text_primary;
   transition: color 0.3s ease;
   text-decoration: none;
 }
 
 .navbar a:hover {
-  color: #C0C0C0;
+  color: v.$color-text_hover;
 }
 
 .navbar-brand img {
   height: 48px;
   flex-shrink: 0;
-}/*# sourceMappingURL=style.css.map */
+}
