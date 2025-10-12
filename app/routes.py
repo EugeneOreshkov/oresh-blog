@@ -14,6 +14,5 @@ def index():
     return render_template('index.html', title='Oreshkov', posts=posts, current_route=request.endpoint)    
 
 @app.route('/about')
-@login_required
 def about():
     return render_template('about.html', title='About')
