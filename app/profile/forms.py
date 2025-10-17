@@ -14,9 +14,9 @@ class EditProfileForm(FlaskForm):
         self.avatar.validators = [
             FileAllowed(allowed, message="Only images (png, jpg, jpeg, webp)!")
         ]      
-    avatar = FileField()    
+    avatar = FileField("Аватар:")    
     username = StringField(
-        "Username:",
+        "Имя пользователя:",
         validators=[
             DataRequired(),
             Length(min=3, max=24, message=messages.USERNAME_LENGTH_ERROR),
@@ -24,11 +24,11 @@ class EditProfileForm(FlaskForm):
         ],
     )    
     about = TextAreaField(
-        "About me",
+        "О себе:",
         validators=[
             Length(min=0, max=140, message=messages.GENERAL_LENGTH_ERROR),
         ],
     )
-    submit = SubmitField("Update")
+    submit = SubmitField("Обновить")
 
     

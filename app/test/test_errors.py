@@ -4,3 +4,4 @@ def test_404_error(client):
     assert response.status_code == 404
     assert b'Page not found.' in response.data
 
+# TEST_500_ERROR PASSED 

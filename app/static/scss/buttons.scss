@@ -1,0 +1,30 @@
+@use 'variables';
+
+.btn-pill {
+  background-color: #fff;
+  margin-left: 10px;
+  color: #FF3B30;                
+  border-radius: 50px;  
+  font-weight: 400;           
+  font-size: 1rem;            
+  padding: 0.5rem 1.5rem;
+  display: flex;     
+  cursor: pointer;             
+  transition: all 0.3s ease;   
+  font-family: $font_family_bounded;
+}
+
+.navbar .btn-pill:hover {
+  background-color: #fff;      
+  color: #000;             
+}
+
+.custom-transition {
+  transition: all 0.3s ease;   
+}
+
+.custom-transition:hover {  
+  background-color: #ffffff;
+  color: #FF3B30;
+}
+

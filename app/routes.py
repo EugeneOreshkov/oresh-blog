@@ -1,17 +1,37 @@
-import sqlalchemy as sa
-from flask import render_template, request
-from flask_login import login_required
+from datetime import datetime
+
+from flask import flash, redirect, render_template, url_for
+from flask_login import current_user, login_required
 
 from app import app, db
+from app.post.forms import PostForm
 from app.models import Post
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    stmt = sa.select(Post).order_by(Post.timestamp.desc())
-    posts = db.session.scalars(stmt).all()    
-    return render_template('index.html', title='Oreshkov', posts=posts, current_route=request.endpoint)    
+    """Main page."""    
+    # Greeting message
+    hour = datetime.now().hour
+    periods = [(range(5,12), 'Доброе утро☀️'),
+               (range(12,18), 'Добрый день🌤️'),
+               (range(18,24), 'Добрый вечер🌙'),
+               (range(0,5), 'Добрый вечер🌙'),]
+    greeting = "Привет"
+    for period, greeting_text in periods:
+        if hour in period:
+            greeting = greeting_text
+            break
+    
+    posts = Post.get_all_posts()
+
+    return render_template(
+        'index.html',
+        title='Oreshkov',
+        posts=posts,        
+        greeting=greeting
+    )
 
 @app.route('/about')
 def about():

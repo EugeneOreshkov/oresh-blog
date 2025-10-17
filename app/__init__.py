@@ -78,9 +78,9 @@ login = LoginManager(app)
 login.login_view = "auth.login"
 migrate = Migrate(app, db)
 
-from app import routes, models # noqa: F401
+from app import models, routes # noqa: F401
 
-from app.avatars import bp as avatars_bp
+from app.avatar import bp as avatars_bp
 app.register_blueprint(avatars_bp, url_prefix="/avatars")
 
 from app.profile import bp as profile_bp
@@ -89,5 +89,11 @@ app.register_blueprint(profile_bp)
 from app.auth import bp as auth_bp
 app.register_blueprint(auth_bp)
 
-from app.errors import bp as errors_bp
+from app.error import bp as errors_bp
 app.register_blueprint(errors_bp)
+
+from app.user import bp as users_bp
+app.register_blueprint(users_bp)
+
+from app.post import bp as posts_bp
+app.register_blueprint(posts_bp)

@@ -1,52 +1,53 @@
 @use "variables" as v;
 
 html {
-  font-size: 16px; /* Base size */
-  font-family: "Bounded-Variable", sans-serif;
+  font-size: 16px; /* Base size */  
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box;  
 }
 
 h1 {
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1.2rem;  
 }
 
 body {
   margin: 0;
   padding-top: 64px;  
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1rem; 
 }
 
 nav.navbar {
   height: 64px;
   background: v.$navbar-gradient;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 1.125rem;
   display: flex;
-  padding: 0 1rem;
+  padding: 0 1rem; 
+   font-family: v.$font_family_manrope;
 }
 
 .navbar .navbar-text {
   color: v.$color-text_primary;  
-  font-weight: 200;
+  font-weight: 300;
   display: flex;  
+  font-family: v.$font_family_manrope;
 }
 
 .navbar a {
   color: v.$color-text_primary;
   transition: color 0.3s ease;
-  text-decoration: none;
+  text-decoration: none;  
 }
 
 .navbar a:hover {
-  color: v.$color-text_hover;
+  color: v.$color-text_hover;  
 }
 
 .navbar-brand img {
   height: 48px;
-  flex-shrink: 0;
+  flex-shrink: 0;   
 }

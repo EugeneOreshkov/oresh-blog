@@ -43,9 +43,8 @@ class User(UserMixin, db.Model):
         sa.String(256), nullable=False
     )
 
-    posts: so.WriteOnlyMapped["Post"] = so.relationship(back_populates="author")
+    posts: so.WriteOnlyMapped["Post"] = so.relationship(back_populates="author")    
     
-    # TODO Вернись сюда позже (Разберись пожалуйста)
     following: so.WriteOnlyMapped["User"] = so.relationship(
         secondary=followers, 
         primaryjoin=(followers.c.follower_id == id),
@@ -95,18 +94,18 @@ class User(UserMixin, db.Model):
     
     def is_following(self, user):
         query = self.following.select().where(User.id == user.id)
-        return db.session.scalar(query) is not None
+        return db.session.scalar(query) is not None    
     
     def followers_count(self):
-        query = sa.select(sa.func().count()).select_from(
-            self.followers.select().subquery()
-            )
+        query = sa.select(sa.func.count()).select_from(self.followers.select().subquery())
+        return db.session.scalar(query)
+
+    def following_count(self):
+        query = sa.select(sa.func.count()).select_from(self.following.select().subquery())
         return db.session.scalar(query)
     
-    def followers_count(self):
-        query = sa.select(sa.func().count()).select_from(
-            self.following.select().subquery()
-            )
+    def posts_count(self):
+        query = sa.select(sa.func.count()).select_from(Post).where(Post.user_id == self.id)
         return db.session.scalar(query)
     
     def following_posts(self):
@@ -135,8 +134,8 @@ def load_user(id):
 class Post(db.Model):
     __tablename__ = "posts"
 
+    # -- Columns --
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-
     title: so.Mapped[str] = so.mapped_column(
         sa.String(150), nullable=False
     )
@@ -156,5 +155,16 @@ class Post(db.Model):
     )
     author: so.Mapped["User"] = so.relationship(back_populates="posts")
 
+    # -- Methods --
+    @classmethod
+    def get_all_posts(cls):
+        stmt = sa.select(cls).order_by(cls.timestamp.desc())
+        return db.session.scalars(stmt).all()
+    
+    @classmethod
+    def get_user_posts(cls, user_id: int):        
+        stmt = sa.select(cls).where(cls.user_id == user_id).order_by(cls.timestamp.desc())
+        return db.session.scalars(stmt).all()
+    
     def __repr__(self) -> str:
         return f"<Post {self.title}>"

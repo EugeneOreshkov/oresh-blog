@@ -8,7 +8,8 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from app.profile.forms import EditProfileForm
-from app.models import User
+from app.user.follow import EmptyForm
+from app.models import Post, User
 from . import bp
 
 @bp.route('/user/<username>')
@@ -16,11 +17,9 @@ from . import bp
 def user(username):
     stmt = sa.select(User).where(User.username == username)
     user = db.first_or_404(stmt)
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('profile.html', title='User', user=user, posts=posts, current_route=request.endpoint)            
+    posts = Post.get_all_posts()
+    form = EmptyForm()
+    return render_template('user_profile.html', title='User', user=user, posts=posts, form=form)
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

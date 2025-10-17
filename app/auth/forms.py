@@ -8,7 +8,7 @@ from app.models import User
 
 class LoginForm(FlaskForm):
     username = StringField(
-        'Username',
+        'Имя пользователя:',
         validators=[
             DataRequired(),
             Length(min=3, max=24, message=messages.USERNAME_LENGTH_ERROR),
@@ -17,19 +17,19 @@ class LoginForm(FlaskForm):
     )
 
     password = PasswordField(
-        'Password',
+        'Пароль:',
         validators=[
             DataRequired(),
             Length(min=8, max=24, message=messages.PASSWORD_FIELD_ERROR)
         ]
     )
 
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
 
 class RegistrationForm(FlaskForm):
     username = StringField(
-        'Username',
+        'Имя пользователя:',
         validators=[
             DataRequired(),
             Length(min=3, max=24, message=messages.USERNAME_LENGTH_ERROR),
@@ -38,7 +38,7 @@ class RegistrationForm(FlaskForm):
     )
 
     email = StringField(
-        'Email',
+        'Электронная почта:',
         validators=[
         DataRequired(),
         Email(),
@@ -47,7 +47,7 @@ class RegistrationForm(FlaskForm):
     )
 
     phone = StringField(
-        'Phone',
+        'Телефон:',
         validators=[
         DataRequired(),
         Regexp(r'^\+?[0-9]{10,15}$', message=messages.PHONE_REGEX_ERROR)
@@ -55,21 +55,21 @@ class RegistrationForm(FlaskForm):
     )
 
     password = PasswordField(
-        'Password',
+        'Пароль:',
         validators=[DataRequired(),
         Length(min=8, max=24, message=messages.PASSWORD_FIELD_ERROR)
         ]
     )
 
     password2 = PasswordField(
-        'Repeat your password',
+        'Повторите пароль:',
         validators=[DataRequired(),
         Length(min=8, max=24, message=messages.PASSWORD_FIELD_ERROR),
         EqualTo('password', message=messages.PASSWORD_MATCH_ERROR)
         ]
     )
 
-    submit = SubmitField('Register')
+    submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
         user = db.session.scalar(sa.select(User).where(User.username == username.data))
