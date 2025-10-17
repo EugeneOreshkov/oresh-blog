@@ -26,5 +26,6 @@ def create_post():
 
     return render_template(
         'create_post.html',        
-        form=post_form       
+        form=post_form,
+        title='Создать пост'
     )

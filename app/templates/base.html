@@ -4,16 +4,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">       
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">  
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">        
+        <!-- Favicon -->
+        <link rel="icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" type="image/x-icon">
 
-        {% if title %}
-        <title>{{ title }} - Blog</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
+             
+        {% if title == "Brainy" %}
+            <title>Brainy</title>
+        {% elif title %}
+            <title>{{ title }} - Brainy</title>
         {% else %}
-        <title>*NAME* - Blog</title>
+            <title>*NAME* - Brainy</title>
         {% endif %}
-
+        
         <!-- Include Bootstrap via CDN for responsive grid and component styling -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -52,11 +57,11 @@
                         {% if current_user.is_authenticated %}                                 
                             <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ url_for('profile.user', username=current_user.username) }}">Профиль</a></li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-danger rounded-pill px-4 py-2 d-flex align-items-center" href="{{ url_for('posts.create_post') }}" role="button" title="Создать пост">
-                                    <i class="bi bi-plus-lg me-2"></i>                                    
+                                <a class="btn-circle" href="{{ url_for('posts.create_post') }}" role="button" title="Создать пост">
+                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>                                    
                                 </a>
                             </li>
-                            <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.logout') }}" role="button">Выйти</a></li>                        
+                            <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.logout') }}" role="button">Выйти</a></li>                        
                         {% elif request.endpoint == 'auth.register' %}
                             <li class="nav-item"><span class="navbar-text me-2">Были здесь ранее?</span></li>
                             <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.login') }}" role="button">Войти</a></li>             

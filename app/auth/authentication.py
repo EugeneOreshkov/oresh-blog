@@ -31,7 +31,7 @@ def register():
         db.session.commit()
         flash('Thank you for registering. You can now log in.')
         return redirect(url_for('auth.login'))
-    return render_template('register.html', title='Register', form=form, current_route=request.endpoint)
+    return render_template('register.html', title='Регистрация', form=form, current_route=request.endpoint)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -50,7 +50,7 @@ def login():
             next_page = url_for('index')
         flash("Login requested successfully.")
         return redirect(next_page)
-    return render_template('login.html', title = 'Sign in', form=form, current_route=request.endpoint)
+    return render_template('login.html', title = 'Войти', form=form, current_route=request.endpoint)
 
 @bp.route('/logout')
 @login_required

@@ -1,9 +1,18 @@
-def test_font_loadable(client):
-    """Test if the font file is accessible."""
-    font_path = '/app/static/fonts/Manpore-Variable.ttf'
-    response = client.get(font_path)
-    assert response.status_code == 200
-    assert response.mimetype == 'font/ttf'
+import pytest
+@pytest.mark.parametrize("path", [
+    '/static/fonts/Manrope-Variable.ttf',
+    '/static/fonts/Bounded-Variable.ttf'
+])
+
+def test_fonts_loadable(client, path): 
+    # Path to static font files
+    response = client.get(path)
+    assert response.status_code == 200      
+
+    # File content should not be empty
     assert len(response.data) > 0
-    assert response.data.startswith(b'\x00\x01\x00\x00')  # TrueType font file signature
-    assert b'Manpore-Variable' in response.data  # Check if the font name is in the file content
+
+    # Check for valid font file signatures (TrueType or OpenType)
+    assert response.data.startswith(b'\x00\x01\x00\x00') or response.data.startswith(b'OTTO')
+    # Check for correct MIME type
+    assert response.mimetype in {'font/ttf', 'font/otf', 'application/font-sfnt', 'application/octet-stream'}

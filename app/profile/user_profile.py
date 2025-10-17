@@ -19,7 +19,7 @@ def user(username):
     user = db.first_or_404(stmt)
     posts = Post.get_all_posts()
     form = EmptyForm()
-    return render_template('user_profile.html', title='User', user=user, posts=posts, form=form)
+    return render_template('user_profile.html', title='Пользователь', user=user, posts=posts, form=form)
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -57,7 +57,7 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about.data = current_user.about
-    return render_template('edit_profile.html', title='Edit Profile', form=form, current_route=request.endpoint)
+    return render_template('edit_profile.html', title='Редактировать профиль', form=form, current_route=request.endpoint)
 
 @bp.before_request
 def before_request():

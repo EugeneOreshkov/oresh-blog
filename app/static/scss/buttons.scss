@@ -1,30 +1,57 @@
-@use 'variables';
+@use 'variables' as v;
 
-.btn-pill {
-  background-color: #fff;
+@mixin btn-pill(
+    $bg: #fff,
+    $color: #000,
+    $hover-bg: #FF3B30,
+    $hover-color: #fff,
+    $circle: false,
+    $size: 41px,
+    $py: .5rem,
+    $px: 1.5rem
+  ) {
+  background-color: $bg;
   margin-left: 10px;
-  color: #FF3B30;                
-  border-radius: 50px;  
-  font-weight: 400;           
-  font-size: 1rem;            
-  padding: 0.5rem 1.5rem;
-  display: flex;     
-  cursor: pointer;             
-  transition: all 0.3s ease;   
-  font-family: $font_family_bounded;
+  color: $color;
+  font-weight: 400;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: v.$font_family_bounded;
+
+  @if $circle {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    padding: 0;
+  } @else {
+    border-radius: 50rem;
+    padding: $py $px;
+  }
+
+  &:hover {
+    background-color: $hover-bg;
+    color: $hover-color;
+  }
+  
+  // Increase specificity inside navbar context
+  @at-root .navbar #{&} {
+    color: $color;
+    &:hover { color: $hover-color; }
+  }
 }
 
-.navbar .btn-pill:hover {
-  background-color: #fff;      
-  color: #000;             
+.btn-pill-custom {
+  @include btn-pill(    
+    $circle: false
+  );
 }
 
-.custom-transition {
-  transition: all 0.3s ease;   
+.btn-circle {
+  @include btn-pill(    
+    $circle: true,    
+  );
 }
-
-.custom-transition:hover {  
-  background-color: #ffffff;
-  color: #FF3B30;
-}
-

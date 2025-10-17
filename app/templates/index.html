@@ -4,6 +4,9 @@
         <h1>{{ greeting }}, {{ current_user.username }}!</h1>
     {% else %}
         <h1>Hello *NAME*!</h1>
-    {% endif %}    
+    {% endif %}   
+    {% for post in posts %}
+        {% include "partials/_post.html" %}
+    {% endfor %} 
 {% endblock %}
             

@@ -97,3 +97,6 @@ app.register_blueprint(users_bp)
 
 from app.post import bp as posts_bp
 app.register_blueprint(posts_bp)
+
+from app.search import bp as search_bp
+app.register_blueprint(search_bp)

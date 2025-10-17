@@ -1,0 +1,53 @@
+.btn-pill-custom {
+  background-color: #fff;
+  margin-left: 10px;
+  color: #000;
+  font-weight: 400;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Bounded-Variable", sans-serif;
+  border-radius: 50rem;
+  padding: 0.5rem 1.5rem;
+}
+.btn-pill-custom:hover {
+  background-color: #FF3B30;
+  color: #fff;
+}
+.navbar .btn-pill-custom {
+  color: #000;
+}
+.navbar .btn-pill-custom:hover {
+  color: #fff;
+}
+
+.btn-circle {
+  background-color: #fff;
+  margin-left: 10px;
+  color: #000;
+  font-weight: 400;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Bounded-Variable", sans-serif;
+  width: 41px;
+  height: 41px;
+  border-radius: 50%;
+  padding: 0;
+}
+.btn-circle:hover {
+  background-color: #FF3B30;
+  color: #fff;
+}
+.navbar .btn-circle {
+  color: #000;
+}
+.navbar .btn-circle:hover {
+  color: #fff;
+}/*# sourceMappingURL=buttons.css.map */
