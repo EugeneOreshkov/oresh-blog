@@ -9,16 +9,16 @@ from werkzeug.utils import secure_filename
 from app import db
 from app.profile.forms import EditProfileForm
 from app.user.follow import EmptyForm
-from app.models import Post, User
+from app.models import User, Post
 from . import bp
 
 @bp.route('/user/<username>')
 @login_required
 def user(username):
     stmt = sa.select(User).where(User.username == username)
-    user = db.first_or_404(stmt)
-    posts = Post.get_all_posts()
+    user = db.first_or_404(stmt)    
     form = EmptyForm()
+    posts = Post.get_user_posts(user.id)
     return render_template('user_profile.html', title='Пользователь', user=user, posts=posts, form=form)
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])

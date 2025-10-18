@@ -2,8 +2,11 @@
     <tr valign="top">
     <td><img src="{{ post.author.avatar(48) }}"></td>
     <hr>
-    <td>
-        <i>{{ post.author.username }} | Написал пост в {{ post.timestamp }}</i><br>        
+    <td> 
+        <a href="{{ url_for('profile.user', username=post.author.username) }}">
+            {{ post.author.username }}
+        </a>        
+        Написал(a) пост в {{ post.timestamp }}<br>        
         {{ post.title }}       
         <br>{{ post.body }}<br>
     </td>

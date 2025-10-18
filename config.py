@@ -1,6 +1,7 @@
 import os, json
 
 class Config:
+    
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     TEMPLATES_AUTO_RELOAD = True
@@ -29,3 +30,5 @@ class Config:
     '''
 
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    
+    POSTS_PER_PAGE = 10

@@ -1,9 +1,8 @@
-from flask import render_template
-from flask_login import login_required
+from flask import render_template, request
+from flask_login import current_user, login_required
 
 from app.service.greeting_message import GreetingMessage
-from app import app
-from app.models import Post
+from app import app, db
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -11,12 +10,17 @@ from app.models import Post
 def index():
     """Main page."""    
     greeting = GreetingMessage.get_greeting()
-    posts = Post.get_all_posts()
-
+    page = request.args.get('page', 1, type=int)
+    posts = db.paginate(
+        current_user.following_posts(),
+        page = page,
+        per_page=app.config['POSTS_PER_PAGE'],
+        error_out=False
+    )
     return render_template(
         'index.html',
         title='Brainy',
-        posts=posts,        
+        posts=posts.items,        
         greeting=greeting
     )
 

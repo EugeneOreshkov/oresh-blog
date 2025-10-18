@@ -52,6 +52,9 @@
                     <ul class="navbar-nav me-auto mb-lg-0">
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ url_for('index') }}">Главная</a></li> 
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ url_for('about') }}">О нас</a></li>
+                        {% if current_user.is_authenticated %} 
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ url_for('search.search') }}">Теги</a></li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav ms-auto mb-lg-0">
                         {% if current_user.is_authenticated %}                                 
@@ -64,18 +67,19 @@
                             <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.logout') }}" role="button">Выйти</a></li>                        
                         {% elif request.endpoint == 'auth.register' %}
                             <li class="nav-item"><span class="navbar-text me-2">Были здесь ранее?</span></li>
-                            <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.login') }}" role="button">Войти</a></li>             
+                            <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.login') }}" role="button">Войти</a></li>             
                         {% elif request.endpoint == 'auth.login' %}
                             <li class="nav-item"><span class="navbar-text me-2">В первый раз здесь?</span></li>
-                            <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.register') }}" role="button">Создать аккаунт</a></li>  
+                            <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.register') }}" role="button">Создать аккаунт</a></li>  
                         {% else %}
-                            <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.login') }}" role="button">Войти</a></li>
-                            <li class="nav-item"><a class="btn-pill" aria-current="page" href="{{ url_for('auth.register') }}" role="button">Создать аккаунт</a></li>                                                                       
+                            <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.login') }}" role="button">Войти</a></li>
+                            <li class="nav-item"><a class="btn-pill-custom" aria-current="page" href="{{ url_for('auth.register') }}" role="button">Создать аккаунт</a></li>                                                                       
                         {% endif %}
                     </ul>                   
                 </div>          
             </div>                       
         </nav>        
+        
         {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul>
