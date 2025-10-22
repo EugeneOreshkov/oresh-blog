@@ -1,7 +1,7 @@
 ﻿from flask import current_app
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import HiddenField, StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, Regexp
 
 from app import messages
@@ -14,7 +14,8 @@ class EditProfileForm(FlaskForm):
         self.avatar.validators = [
             FileAllowed(allowed, message="Only images (png, jpg, jpeg, webp)!")
         ]      
-    avatar = FileField("Аватар:")    
+    avatar = FileField("Аватар:")   
+    cropped_avatar_data = HiddenField("Cropped Avatar Data") 
     username = StringField(
         "Имя пользователя:",
         validators=[

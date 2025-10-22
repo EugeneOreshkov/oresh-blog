@@ -50,4 +50,30 @@
 }
 .navbar .btn-circle:hover {
   color: #fff;
+}
+
+.btn-pill-mini {
+  background-color: #fff;
+  margin-left: 10px;
+  color: #000;
+  font-weight: 400;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Bounded-Variable", sans-serif;
+  border-radius: 50rem;
+  padding: 0.3rem 1rem;
+}
+.btn-pill-mini:hover {
+  background-color: #000;
+  color: #fff;
+}
+.navbar .btn-pill-mini {
+  color: #000;
+}
+.navbar .btn-pill-mini:hover {
+  color: #fff;
 }/*# sourceMappingURL=buttons.css.map */

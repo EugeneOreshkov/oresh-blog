@@ -55,3 +55,14 @@
     $circle: true,    
   );
 }
+
+.btn-pill-mini {
+  @include btn-pill(    
+    $bg: #fff,
+    $color: #000,
+    $hover-bg: #000,
+    $hover-color: #fff,
+    $px: 1rem,
+    $py: 0.3rem,
+  );
+}

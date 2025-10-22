@@ -154,17 +154,6 @@ class Post(db.Model):
         nullable=False,
     )
     author: so.Mapped["User"] = so.relationship(back_populates="posts")
-
-    # -- Methods --
-    @classmethod
-    def get_all_posts(cls):
-        stmt = sa.select(cls).order_by(cls.timestamp.desc())
-        return db.session.scalars(stmt).all()
-    
-    @classmethod
-    def get_user_posts(cls, user_id: int):        
-        stmt = sa.select(cls).where(cls.user_id == user_id).order_by(cls.timestamp.desc())
-        return db.session.scalars(stmt).all()
-    
+  
     def __repr__(self) -> str:
         return f"<Post {self.title}>"

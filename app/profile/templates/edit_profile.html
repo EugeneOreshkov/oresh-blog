@@ -2,28 +2,150 @@
 {% block content %}
     <h1>Редактировать профиль</h1>
     <form action="" method="post" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}        
-        <p>
-            {{ form.avatar.label }}<br>
-            {{ form.avatar(accept="image/*") }}
-            {% for error in form.avatar.errors %}
-                <span style = "color : red">[{{ error }}]</span>
-            {% endfor %}
-        </p>  
+        {{ form.hidden_tag() }} 
+
+        <!-- Avatar Section -->
+        <div class="mb-3">
+            <label class="form-label">{{ form.avatar.label }}</label>
+            <div class="d-flex align-items-center">
+
+                <div class="me-3">
+                    <img id="avatarPreview" src="{{ current_user.avatar(128) }}" 
+                        width="64" height="64" alt="Current Avatar">
+                </div>
+
+                <div>
+                    <input type="file" id="avatarInput" accept="image/*" class="form-control" style="display: none;">
+                    <button type="button" class="btn-pill-mini" onclick="document.getElementById('avatarInput').click()">
+                        Выбрать аватар
+                    </button>
+                    <div id="avatarFileName" class="text-muted small mt-1"></div>
+                </div>
+
+                {{ form.cropped_avatar_data() }}
+                {% for error in form.avatar.errors %}
+                    <span style = "color : red">[{{ error }}]</span>
+                {% endfor %}
+
+            </div>            
+        </div>                   
         <p>
             {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
+            {{ form.username(size=32, class="form-control") }}
             {% for error in form.username.errors %}
                 <span style = "color : red">[{{ error }}]</span>
             {% endfor %}
         </p>        
         <p>
             {{ form.about.label }}<br>
-            {{ form.about(rows=10, cols=80) }}
+            {{ form.about(rows=10, cols=80, class="form-control") }}
             {% for error in form.about.errors %}
                 <span style = "color : red">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.submit() }}</p>
-      </form>
+        <p>{{ form.submit(class="btn-pill-mini") }}</p>
+    </form>
+    
+    <!-- Cropper Modal -->
+    <div class="modal fade" id="cropperModal" tabindex="-1" aria-labelledby="cropperModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">                
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cropperModalLabel">Обрезать аватар</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img id="cropperImage" style="max-width: 95%; max-height: 400px;">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-primary" id="cropButton">Обрезать</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- Cropper.js CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    
+    <script>
+        let cropper = null;
+        let originalFile = null;
+
+        document.getElementById('avatarInput').addEventListener('change', function(e) {                       
+            const file = e.target.files[0];
+            if (file) {
+                originalFile = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('cropperImage').src = e.target.result;
+                    document.getElementById('avatarFileName').textContent = file.name;
+
+                    // Show modal
+                    const modal = new bootstrap.Modal(document.getElementById('cropperModal'));
+                    modal.show();                
+                }
+                reader.readAsDataURL(file)
+            }
+        }); 
+
+        document.getElementById('cropperModal').addEventListener('shown.bs.modal', function() {
+            const image = document.getElementById('cropperImage');
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropper = new Cropper (image, {
+                aspectRatio: 1,
+                viewMode: 1,
+                dragMode: 'move',
+                autoCropArea: 0.8,
+                restore: false,
+                guides: false,
+                center: false,
+                highlight: false,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                toggleDragModeOnDblclick: false,
+            });
+        });
+
+        document.getElementById('cropButton').addEventListener('click', function() {
+            if (cropper){
+                const canvas = cropper.getCroppedCanvas({
+                    width: 256,
+                    height: 256,
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high',                                    
+                });
+
+                if (canvas) {
+                    const croppedDataURL = canvas.toDataURL('image/png')
+                    document.getElementById('cropped_avatar_data').value = croppedDataURL;
+
+                    // Update preview
+                    document.getElementById('avatarPreview').src = croppedDataURL;
+                    
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
+                    modal.hide();
+                }
+            
+            }
+        });
+
+        document.getElementById('cropperModal').addEventListener('hidden.bs.modal', function() {
+            if (cropper){
+                cropper.destroy();
+                cropper = null;
+            }
+        });
+    </script>
 {% endblock %}

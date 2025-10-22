@@ -8,5 +8,11 @@
     {% for post in posts %}
         {% include "partials/_post.html" %}
     {% endfor %} 
+    {% if prev_url %}
+    <a href="{{ prev_url }}">Вернуться назад</a>
+    {% endif %}
+    {% if next_url %}
+    <a href="{{ next_url }}">Показать ещё</a>
+    {% endif %}
 {% endblock %}
             
