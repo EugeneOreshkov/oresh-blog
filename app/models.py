@@ -80,6 +80,18 @@ class User(UserMixin, db.Model):
 
     def avatar(self, size: int = 128) -> str:
         """Return the avatar URL (for use in <img src=...>)"""
+       
+        import os
+        from flask import current_app
+        
+        # Check if custom avatar exists
+        upload_dir = current_app.config.get('UPLOAD_FOLDER', '')
+        custom_avatar_path = os.path.join(upload_dir, f'user{self.id}.png')
+        
+        if os.path.exists(custom_avatar_path):
+            return f'/avatars/custom/{self.id}?size={size}'
+
+        # Fallback to generated avatar
         import hashlib
         seed = hashlib.md5(self.email.strip().lower().encode("utf-8")).hexdigest()
         return url_for("avatars.avatar", seed=seed, size=size)

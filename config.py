@@ -9,7 +9,7 @@ class Config:
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     # Allowed file extensions for uploads (only images)
     ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp']
-    UPLOAD_FOLDER = 'app/static/customs_avatars'
+    UPLOAD_FOLDER = '/static/customs_avatars'
 
     # SMTP server address (depends on provider, e.g. smtp.gmail.com, smtp.yandex.ru)
     MAIL_SERVER = os.environ.get('MAIL_SERVER') 

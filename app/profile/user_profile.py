@@ -63,7 +63,7 @@ def edit_profile():
                 # Open with PIL and ensure it's RGB
                 image = PILImage.open(BytesIO(image_data))
                 if image.mode != 'RGB':
-                    image.convert('RGB')
+                    image = image.convert('RGB')
                 
                 # Resize to 256x256 for consistency
                 image = image.resize((256,256), PILImage.Resampling.LANCZOS)
@@ -75,11 +75,14 @@ def edit_profile():
 
                 path = os.path.join(upload_dir, filename)
 
+                image.save(path)
+                changed_avatar = True
+
             except Exception as e:
                flash(f'Ошибка при сохранении аватара: {str(e)}', 'error')
 
         # --- Fallback: Regular file upload ---                   
-        elif file:  
+        elif form.avatar.data:  
             file= form.avatar.data
 
             ext = os.path.splitext(file.filename)[1]        
@@ -91,15 +94,14 @@ def edit_profile():
             path = os.path.join(upload_dir, filename)            
             file.save(path)
 
-            changed_avatar = True
-        
-        # --- Text fields ---
+            changed_avatar = True        
+       
         if (form.username.data != current_user.username) or (form.about.data != current_user.about):
             current_user.username = form.username.data
             current_user.about = form.about.data
             changed_profile = True
 
-        if changed_profile: db.session.commit()
+        if changed_profile or changed_avatar: db.session.commit()
         
         # --- Flash messages ---
         if changed_avatar and changed_profile: flash('Аватар и профиль обновлены.')

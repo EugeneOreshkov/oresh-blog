@@ -7,6 +7,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_mail import Mail
 
 from config import Config
 
@@ -77,6 +78,7 @@ db = SQLAlchemy(app)
 login = LoginManager(app)
 login.login_view = "auth.login"
 migrate = Migrate(app, db)
+mail = Mail(app)
 
 from app import models, routes # noqa: F401
 
@@ -100,3 +102,6 @@ app.register_blueprint(posts_bp)
 
 from app.search import bp as search_bp
 app.register_blueprint(search_bp)
+
+from app.service.reset_password import bp as reset_password_bp
+app.register_blueprint(reset_password_bp)

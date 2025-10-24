@@ -17,6 +17,10 @@
                 <span style = "color : red">[{{ error }}]</span>
             {% endfor %}
         </p>
+        <p>
+            Забыли пароль?
+            <a href="{{ url_for('reset_password_bp.reset_password_request') }}">Нажмите чтобы получить новый</a>
+        </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
