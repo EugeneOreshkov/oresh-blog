@@ -134,7 +134,14 @@ class User(UserMixin, db.Model):
            ))
            .group_by(Post)
            .order_by(Post.timestamp.desc())
-        )        
+        )     
+
+    def get_reset_token(self, expires_in=600):
+        """Generate a password reset token for this user."""
+        from app.service.reset_password.password_reset_service import PasswordResetTokenService
+        
+        token_service = PasswordResetTokenService(expires_in=expires_in)
+        return token_service.generate_token(self.id)
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"   
