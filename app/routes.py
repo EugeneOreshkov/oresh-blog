@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for
+from flask import abort, logging, render_template, request, url_for
 from flask_login import login_required
 
 from app.service.greeting_message import get_greeting
@@ -9,7 +9,7 @@ from app import app
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    """Main page."""    
+    """Main page."""     
     greeting = get_greeting()
     page = request.args.get('page', 1, type=int)
     posts = get_following_posts_with_pagination(page)

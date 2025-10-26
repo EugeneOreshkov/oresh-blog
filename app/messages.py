@@ -19,5 +19,5 @@ PASSWORD_MATCH_ERROR = "Passwords must match."
 GENERAL_LENGTH_ERROR = "This field is too long."
 
 # HTTP error messages
-ERROR_404_MESSAGE = "Page not found."
+ERROR_404_MESSAGE = "Страница не найдена."
 ERROR_500_MESSAGE = "An unexpected error has occurred. Please try again later."

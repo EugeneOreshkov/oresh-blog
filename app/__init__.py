@@ -2,7 +2,6 @@ import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 from pathlib import Path
 
-from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -10,9 +9,6 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 
 from config import Config
-
-dotenv_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=dotenv_path)
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -38,16 +34,23 @@ logger.addHandler(stream_handler)
 
 #File logs (rotating)
 try:
-    Path("app/logs").mkdir(parents=True, exist_ok=True)
-    file_handler = RotatingFileHandler("app/logs/app.log", maxBytes=10240, backupCount=10, encoding="utf-8")
+    logs_dir = Path("app/logs")
+    logs_dir.mkdir(parents=True, exist_ok=True)
+    log_file = logs_dir / "app.log"    
+    
+    file_handler = RotatingFileHandler(str(log_file), maxBytes=1024000, backupCount=5, encoding="utf-8")
+
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
+
+    logger.info("Logging system initialized successfully")
 except Exception as e:
+    print(f"File logging setup failed: {e}")
     logger.warning('File logging setup failed: %s', e)
 
 # Email errors in production if SMTP configured
-if not app.debug and app.config['MAIL_SERVER']:         
+if app.config['MAIL_SERVER']:         
     auth = None
     if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
         auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])

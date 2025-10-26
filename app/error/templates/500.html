@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>{{ error }}</h1>  
-    <p><a href="{{ url_for('index') }}">Back</a></p>
+    <p>
+        <a href="{{ url_for('index') }}" class="btn-pill-custom">На главную</a>
+    </p>
 {% endblock %}

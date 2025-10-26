@@ -4,7 +4,6 @@ os.environ['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
 os.environ['SECRET_KEY'] = 'test-secret-key-for-testing-only'
 
 import pytest
-#TODO: Create a factory function for the app
 from app import app, db 
 
 @pytest.fixture
@@ -33,5 +32,4 @@ def user_pair(client):
     db.session.commit()
 
     return user1, user2
-
 

@@ -32,11 +32,12 @@ def reset_password(token):
         return redirect(url_for('index'))
     user = PasswordResetTokenService.verify_reset_password_token(token)
     if not user:
-        return redirect(url_for('index'))
+        flash('Недействительная или истекшая ссылка для сброса пароля.')
+        return redirect(url_for('auth.login'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
         flash('Ваш пароль был сброшен.')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     return render_template('reset_password.html', form=form)
